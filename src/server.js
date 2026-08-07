@@ -10,7 +10,10 @@ import { errorHandler } from './middleware/errorHandler';
 // import {notFoundHandler}from
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT ?? 3000;
+
+// підключення до MongoDB
+await connectMongoDB();
 
 // Перший маршрут
 app.get('/', (req, res) => {
