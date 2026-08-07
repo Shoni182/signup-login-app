@@ -1,26 +1,39 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-import { error } from 'celebrate';
-import { celebrate } from 'celebrate';
+import { errors } from 'celebrate';
+// import { celebrate } from 'celebrate';
 // DB
-import { connectMongoDB } from './db/connectMongoDB';
-// middlewares
-import { errorHandler } from './middleware/errorHandler';
-// import {notFoundHandler}from
+import { connectMongoDB } from './db/connectMongoDB.js';
+// imports middlewares
+import { errorHandler } from './middleware/errorHandler.js';
+import { notFoundHandler } from './middleware/notFoundHandler.js';
+
+import authRoutes from './routes/authRoutes.js';
+// import booksRoutes
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
+// ^ Middlewars
+app.use(cors());
+app.use(express.json());
 
-// підключення до MongoDB
+// ^ Routs
+app.use(authRoutes);
+
+// ^ 404 - якщо маршрут не знайдено
+app.use(notFoundHandler);
+
+// ^ Валідація за допомогою celebrate
+app.use(errors());
+
+// ^ Помилка під час запиту
+app.use(errorHandler);
+
+// ^ MongoDB
 await connectMongoDB();
 
-// Перший маршрут
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Hello world!' });
-});
-
-// Запуск сервера
+//: Запуск сервера
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

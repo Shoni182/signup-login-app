@@ -5,15 +5,20 @@ const userSchema = new Schema(
     name: { type: String, trim: true },
     email: { type: String, unique: true, required: true, trim: true },
     password: { type: String, required: true },
-    role: { type: String, required: true },
+    role: {
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user',
+      required: true,
+    },
   },
 
   { timestamps: true },
 );
 
-userSchema.pre('save', function () {
-  if (!this.username) {
-    this.username = this.email;
+userSchema.pre('save', async function () {
+  if (!this.name) {
+    this.name = this.email;
   }
 });
 
