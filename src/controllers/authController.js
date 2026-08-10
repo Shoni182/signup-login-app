@@ -31,14 +31,14 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   // Search an user
-  const user = await User.findOne({ email });
+  const userQuery = await User.findOne({ email });
 
-  if (!user) {
+  if (!userQuery) {
     throw createHttpError(401, 'No such user');
   }
 
   // Check password
-  const isValidPassword = await bcrypt.compare(password, user.password);
+  const isValidPassword = await bcrypt.compare(password, userQuery.password);
   if (!isValidPassword) {
     throw createHttpError(401, '');
   }
@@ -46,6 +46,6 @@ export const loginUser = async (req, res) => {
   // Створюємо нову сессію
   // Викликаємо, передаємо обʼєкт відповіді та сессію
 
-  res.status(200).json(user);
+  res.status(200).json(userQuery);
 };
 //! Logout User

@@ -7,10 +7,11 @@ export const getAllUsers = async (req, res) => {
   const { page = 1, perPage = 10 } = req.query;
 
   const skip = (page - 1) * perPage;
+  const usersQuery = await User.find();
 
   const [totalUsers, users] = await Promise.all([
-    users.clone().countDocuments(),
-    users.skip(skip).limit(perPage),
+    usersQuery.clone().countDocuments(),
+    usersQuery.skip(skip).limit(perPage),
   ]);
 
   const totalPages = Math.ceil(totalUsers / perPage);
@@ -21,16 +22,16 @@ export const getAllUsers = async (req, res) => {
 export const getUserById = async (req, res) => {
   const { _id } = req.params;
 
-  const user = await User.findById(_id);
+  const userQuery = await User.findById(_id);
 
-  if (!user) {
+  if (!userQuery) {
     throw createHttpError(404, 'User not found');
   }
 
-  res.status(200).json(user);
+  res.status(200).json(userQuery);
 };
 
-// : Create s user
+// : Create an user
 export const createUser = async (req, res) => {
   const { email, password, name, role } = req.body;
 
@@ -56,7 +57,7 @@ export const createUser = async (req, res) => {
   res.status(201).json(newUser);
 };
 
-// : Update a user
+// : Update an user
 export const updateUser = async (req, res) => {
   const { _id } = req.params;
   const { name, email, role } = req.body;
@@ -96,18 +97,15 @@ export const updateUser = async (req, res) => {
   res.status(200).json(user);
 };
 
-// : Delete a user
+// : Delete an user
 export const deleteUser = async (req, res) => {
   const { _id } = req.params;
 
-  const user = await User.findOneAndDelete(_id);
+  const userQuery = await User.findOneAndDelete(_id);
 
-  if (!user) {
+  if (!userQuery) {
     throw createHttpError(404, 'User not found');
   }
 
-  res.status(200).json(user);
+  res.status(200).json(userQuery);
 };
-
-// /users - get list of users, create user (GET, POST)
-// /users/:id - get user by id, edit or delete user (GET, PUT/PATCH, DELETE)

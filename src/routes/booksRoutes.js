@@ -7,6 +7,14 @@ import {
   updateBookSchema,
 } from '../validation/booksValidation';
 
+import {
+  getAllBooks,
+  getBookById,
+  createBook,
+  updateBook,
+  deleteBook,
+} from '../controllers/booksController';
+
 const router = Router();
 
 // : Get all books (GET)
@@ -24,6 +32,3 @@ router.patch('/books/:id', celebrate(updateBookSchema), updateBook);
 router.delete('/books/:id', celebrate(bookIdSchema), deleteBook);
 
 export default router;
-
-// /books - get books, create a new book (GET, POST)
-// /books/:id - get/edit/delete a book (GET, PUT/PATCH, DELETE)
