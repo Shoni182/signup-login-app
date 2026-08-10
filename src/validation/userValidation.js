@@ -22,7 +22,7 @@ export const getAllUsersSchema = {
 // : Get a user by ID
 export const getUserByIdSchema = {
   [Segments.PARAMS]: Joi.object({
-    userId: Joi.string().custom(isValidObjectId).required(),
+    _id: Joi.string().custom(isValidObjectId).required(),
   }),
 };
 
@@ -30,11 +30,9 @@ export const getUserByIdSchema = {
 export const UpdateUserSchema = {
   [Segments.PARAMS]: Joi.object({
     name: Joi.string().required(),
-    userId: Joi.string().custom(isValidObjectId).required(),
+    _id: Joi.string().custom(isValidObjectId).required(),
     role: Joi.string().valid('user', 'admin').optional(),
   }),
 
   [Segments.BODY]: Joi.object({}),
 };
-
-//  : Delete a user

@@ -2,22 +2,21 @@ import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import { User } from '../models/user.js';
 
-//: Register User
+//: SignUp a user
 export const signupUser = async (req, res) => {
   const { email, password } = req.body;
 
   // Check if a user exist
   const existingUser = await User.findOne({ email });
 
-  // Checking email
   if (existingUser) {
     throw createHttpError(400, 'Email in use!');
   }
 
-  //! hash password using bcrypt
+  // Hash password using bcrypt
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // create new a user
+  // Create new a user
   const newUser = await User.create({
     email,
     password: hashedPassword,
@@ -27,20 +26,18 @@ export const signupUser = async (req, res) => {
   res.status(201).json(newUser);
 };
 
-//: Login use
-
+//: Login a user
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
-  // Пошук юзера
+  // Search an user
   const user = await User.findOne({ email });
-  // Перевірка
 
   if (!user) {
     throw createHttpError(401, 'No such user');
   }
-  // Перевірка хеші паролів
 
+  // Check password
   const isValidPassword = await bcrypt.compare(password, user.password);
   if (!isValidPassword) {
     throw createHttpError(401, '');
