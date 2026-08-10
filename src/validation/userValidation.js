@@ -27,7 +27,7 @@ export const getUserByIdSchema = {
 };
 
 // : Update a user
-export const UpdateUserSchema = {
+export const updateUserSchema = {
   [Segments.PARAMS]: Joi.object({
     name: Joi.string().required(),
     _id: Joi.string().custom(isValidObjectId).required(),

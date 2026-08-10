@@ -2,7 +2,7 @@ import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import { User } from '../models/user';
 
-//: Get /users - admin only
+// : Get /users - admin only
 export const getAllUsers = async (req, res) => {
   const { page = 1, perPage = 10 } = req.query;
 
@@ -17,7 +17,7 @@ export const getAllUsers = async (req, res) => {
   res.status(200).json({ page, perPage, totalUsers, totalPages, users });
 };
 
-// : Get user by id
+// : Get user by id - admin only
 export const getUserById = async (req, res) => {
   const { _id } = req.params;
 

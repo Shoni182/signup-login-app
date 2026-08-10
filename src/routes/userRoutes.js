@@ -4,8 +4,16 @@ import {
   createUserSchema,
   getAllUsersSchema,
   getUserByIdSchema,
-  UpdateUserSchema,
+  updateUserSchema,
 } from '../validation/userValidation.js';
+
+import {
+  getAllUsers,
+  createUser,
+  getUserById,
+  updateUser,
+  deleteUser,
+} from '../controllers/userController.js';
 
 const router = Router();
 
@@ -14,7 +22,7 @@ router.get('/users', celebrate(getAllUsersSchema), getAllUsers);
 router.post('/users', celebrate(createUserSchema), createUser);
 
 router.get('/users/:userId', celebrate(getUserByIdSchema), getUserById);
-router.patch('/users/:userId', celebrate(UpdateUserSchema), updateUser);
+router.patch('/users/:userId', celebrate(updateUserSchema), updateUser);
 router.detele('/users/:userId', celebrate(getUserByIdSchema), deleteUser);
 
 export default router;
