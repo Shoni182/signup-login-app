@@ -2,19 +2,22 @@ import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 import { errors } from 'celebrate';
-// import { celebrate } from 'celebrate';
-// DB
+
+// Database
 import { connectMongoDB } from './db/connectMongoDB.js';
 // imports middlewares
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 
 import authRoutes from './routes/authRoutes.js';
+import { logger } from './middleware/logger.js';
 // import booksRoutes
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
+
 // ^ Middlewars
+app.use(logger);
 app.use(cors());
 app.use(express.json());
 

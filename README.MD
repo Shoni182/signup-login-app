@@ -1,0 +1,6 @@
+/signup - signup a new user (POST)
+/login - authenticate user (POST)
+/users - get list of users, create user (GET, POST)
+/users/:id - get user by id, edit or delete user (GET, PUT/PATCH, DELETE)
+/books - get books, create a new book (GET, POST)
+/books/:id - get/edit/delete a book (GET, PUT/PATCH, DELETE)
