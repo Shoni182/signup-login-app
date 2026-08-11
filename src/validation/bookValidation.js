@@ -1,13 +1,13 @@
 import { Joi, Segments } from 'celebrate';
 
-// : Book id shcema
+// Book id shcema
 export const bookIdSchema = {
   [Segments.PARAMS]: Joi.object({
-    _id: Joi.string().required(),
+    id: Joi.string().required(),
   }),
 };
 
-// : Get all books (GET)
+// Get all books (GET)
 export const getAllBooksSchema = {
   [Segments.QUERY]: Joi.object({
     page: Joi.number().integer().min(1).default(1),
@@ -15,7 +15,7 @@ export const getAllBooksSchema = {
   }),
 };
 
-// : Create new book (POST)
+// Create new book (POST)
 export const createBookSchema = {
   [Segments.BODY]: Joi.object({
     name: Joi.string().required().min(1).messages({
@@ -33,7 +33,7 @@ export const createBookSchema = {
   }),
 };
 
-// : Update a book (PATCH)
+// Update a book (PATCH)
 export const updateBookSchema = {
   [Segments.BODY]: Joi.object({
     name: Joi.string().min(1).messages({

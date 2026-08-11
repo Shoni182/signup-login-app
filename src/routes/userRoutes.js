@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { celebrate } from 'celebrate';
+import { authorize } from '../middleware/authorize.js';
 import {
   createUserSchema,
   getAllUsersSchema,
@@ -17,15 +18,14 @@ import {
 
 const router = Router();
 
-// Admin role:
-router.get('/users', celebrate(getAllUsersSchema), getAllUsers);
-router.post('/users', celebrate(createUserSchema), createUser);
+// Admin role
+router.use(authorize(['admin']));
 
-router.get('/users/:userId', celebrate(getUserByIdSchema), getUserById);
-router.patch('/users/:userId', celebrate(updateUserSchema), updateUser);
-router.detele('/users/:userId', celebrate(getUserByIdSchema), deleteUser);
+router.get('/users', celebrate(getAllUsersSchema), getAllUsers);
+router.get('/users/:id', celebrate(getUserByIdSchema), getUserById);
+
+router.post('/users', celebrate(createUserSchema), createUser);
+router.patch('/users/:id', celebrate(updateUserSchema), updateUser);
+router.delete('/users/:id', celebrate(getUserByIdSchema), deleteUser);
 
 export default router;
-
-// /users - get list of users, create user (GET, POST)
-// /users/:id - get user by id, edit or delete user (GET, PUT/PATCH, DELETE)

@@ -1,7 +1,7 @@
 import { Joi, Segments } from 'celebrate';
 import { isValidObjectId } from 'mongoose';
 
-// : Create a new User
+// Create a new User
 export const createUserSchema = {
   [Segments.BODY]: Joi.object({
     name: Joi.string().required(),
@@ -11,7 +11,7 @@ export const createUserSchema = {
   }),
 };
 
-// : Get all users
+// Get all users
 export const getAllUsersSchema = {
   [Segments.QUERY]: Joi.object({
     page: Joi.number().integer().min(1).default(1),
@@ -19,18 +19,18 @@ export const getAllUsersSchema = {
   }),
 };
 
-// : Get a user by ID
+// Get a user by ID
 export const getUserByIdSchema = {
   [Segments.PARAMS]: Joi.object({
-    _id: Joi.string().custom(isValidObjectId).required(),
+    id: Joi.string().custom(isValidObjectId).required(),
   }),
 };
 
-// : Update a user
+// Update a user
 export const updateUserSchema = {
   [Segments.PARAMS]: Joi.object({
     name: Joi.string().required(),
-    _id: Joi.string().custom(isValidObjectId).required(),
+    id: Joi.string().custom(isValidObjectId).required(),
     role: Joi.string().valid('user', 'admin').optional(),
   }),
 

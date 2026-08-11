@@ -7,7 +7,7 @@ export const getAllUsers = async (req, res) => {
   const { page = 1, perPage = 10 } = req.query;
 
   const skip = (page - 1) * perPage;
-  const usersQuery = await User.find();
+  const usersQuery = User.find();
 
   const [totalUsers, users] = await Promise.all([
     usersQuery.clone().countDocuments(),
@@ -20,9 +20,9 @@ export const getAllUsers = async (req, res) => {
 
 // : Get user by id - admin only
 export const getUserById = async (req, res) => {
-  const { _id } = req.params;
+  const { id } = req.params;
 
-  const userQuery = await User.findById(_id);
+  const userQuery = await User.findById(id);
 
   if (!userQuery) {
     throw createHttpError(404, 'User not found');
@@ -59,7 +59,7 @@ export const createUser = async (req, res) => {
 
 // : Update an user
 export const updateUser = async (req, res) => {
-  const { _id } = req.params;
+  const { id } = req.params;
   const { name, email, role } = req.body;
 
   // Check if a email is free to use
@@ -70,28 +70,17 @@ export const updateUser = async (req, res) => {
     }
   }
 
-  // Check if user(admin) is allow to update a user
-  if (role) {
-    if (req.user.role !== 'admin') {
-      throw createHttpError(403, 'Only admin can change user roles');
-    }
-  }
-
-  if (req.body._id.toString() === _id && role !== 'admin') {
-    throw createHttpError(403, 'Cannot downgrade your own admin role');
-  }
-
   const updateData = {};
   if (name) updateData.name = name;
   if (email) updateData.email = email;
   if (role && req.user.role === 'admin') updateData.role = role;
 
-  const user = await User.findOneAndUpdate({ _id }, updateData, {
+  const user = await User.findOneAndUpdate({ _id: id }, updateData, {
     returnDocument: 'after',
   });
 
   if (!user) {
-    throw createHttpError(404, 'Note not found');
+    throw createHttpError(404, 'User not found');
   }
 
   res.status(200).json(user);
@@ -99,9 +88,9 @@ export const updateUser = async (req, res) => {
 
 // : Delete an user
 export const deleteUser = async (req, res) => {
-  const { _id } = req.params;
+  const { id } = req.params;
 
-  const userQuery = await User.findOneAndDelete(_id);
+  const userQuery = await User.findByIdAndDelete(id);
 
   if (!userQuery) {
     throw createHttpError(404, 'User not found');

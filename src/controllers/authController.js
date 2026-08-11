@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
+import jwt from 'jsonwebtoken';
 import { User } from '../models/user.js';
 
 //: SignUp a user
@@ -34,18 +35,20 @@ export const loginUser = async (req, res) => {
   const userQuery = await User.findOne({ email });
 
   if (!userQuery) {
-    throw createHttpError(401, 'No such user');
+    throw createHttpError(401, 'Invalid email or password');
   }
 
   // Check password
   const isValidPassword = await bcrypt.compare(password, userQuery.password);
   if (!isValidPassword) {
-    throw createHttpError(401, '');
+    throw createHttpError(401, 'Invalid email or password');
   }
-  // Видаляємо стару версію користувача ----
-  // Створюємо нову сессію
-  // Викликаємо, передаємо обʼєкт відповіді та сессію
 
-  res.status(200).json(userQuery);
+  const token = jwt.sign(
+    { id: userQuery._id, role: userQuery.role },
+    process.env.JWT_SECRET,
+    { expiresIn: '1d' },
+  );
+
+  res.status(200).json({ token, user: userQuery });
 };
-//! Logout User

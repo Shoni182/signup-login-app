@@ -12,6 +12,3 @@ router.post('/auth/signup', celebrate(signupUserSchema), signupUser);
 router.post('/auth/login', celebrate(loginUserSchema), loginUser);
 
 export default router;
-
-// /signup - signup a new user (POST)
-// /login - authenticate user (POST)
