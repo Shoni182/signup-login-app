@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
-import { Book } from '../models/book';
+import { Book } from '../models/book.js';
 
 // : Get all books (GET)
 export const getAllBooks = async (req, res) => {

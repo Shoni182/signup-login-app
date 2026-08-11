@@ -8,7 +8,7 @@ import {
 
 const router = Router();
 
-router.post('/auth/signup', celebrate(signupUserSchema), signupUser);
-router.post('/auth/login', celebrate(loginUserSchema), loginUser);
+router.post('/signup', celebrate(signupUserSchema), signupUser);
+router.post('/login', celebrate(loginUserSchema), loginUser);
 
 export default router;

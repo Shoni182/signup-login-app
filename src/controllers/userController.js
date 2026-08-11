@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
-import { User } from '../models/user';
+import { User } from '../models/user.js';
 
 // : Get /users - admin only
 export const getAllUsers = async (req, res) => {

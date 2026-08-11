@@ -1,9 +1,16 @@
 import { Joi, Segments } from 'celebrate';
 
+import { isValidObjectId } from 'mongoose';
+
+// Custom object ID validator
+const objectIdValidator = (value, helpers) => {
+  return !isValidObjectId(value) ? helpers.message('Invalid id format') : value;
+};
+
 // Book id shcema
 export const bookIdSchema = {
   [Segments.PARAMS]: Joi.object({
-    id: Joi.string().required(),
+    id: Joi.string().custom(objectIdValidator).required(),
   }),
 };
 

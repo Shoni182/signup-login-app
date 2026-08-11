@@ -24,8 +24,8 @@ app.use(express.json());
 
 // Routs
 app.use(authRoutes);
-app.use(userRoutes);
-app.use(bookRoutes);
+app.use('/users', userRoutes);
+app.use('/books', bookRoutes);
 
 // 404 - якщо маршрут не знайдено
 app.use(notFoundHandler);

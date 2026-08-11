@@ -22,23 +22,18 @@ const router = Router();
 
 router.use(authenticate);
 
-router.get('/books', celebrate(getAllBooksSchema), getAllBooks);
-router.get('/books/:id', celebrate(bookIdSchema), getBookById);
+router.get('/', celebrate(getAllBooksSchema), getAllBooks);
+router.get('/:id', celebrate(bookIdSchema), getBookById);
 
-router.post(
-  '/books',
-  authorize(['admin']),
-  celebrate(createBookSchema),
-  createBook,
-);
+router.post('/', authorize(['admin']), celebrate(createBookSchema), createBook);
 router.patch(
-  '/books/:id',
+  '/:id',
   authorize(['admin']),
   celebrate(updateBookSchema),
   updateBook,
 );
 router.delete(
-  '/books/:id',
+  '/:id',
   authorize(['admin']),
   celebrate(bookIdSchema),
   deleteBook,
