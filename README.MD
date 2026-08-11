@@ -1,5 +1,9 @@
 # Signup/Login App — Inforce Backend Task
 
+## Посилання на репозиторій проєкту:
+
+https://github.com/Shoni182/signup-login-app
+
 Просте REST API на Node.js/Express з JWT-автентифікацією та рольовим доступом (admin / user) до ресурсів `users` та `books`.
 
 ## Технічний стек
